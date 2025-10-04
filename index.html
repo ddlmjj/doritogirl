@@ -221,7 +221,14 @@
         { id: 'autoclicker', name: 'Autoclickeur', baseCost: 50, qty: 0, cps: 1 },
         { id: 'grandma', name: 'Mémé', baseCost: 200, qty: 0, cps: 5 },
         { id: 'farm', name: 'Usine', baseCost: 2000, qty: 0, cps: 25 },
-        { id: 'clickPower', name: 'Power Click', baseCost: 150, qty: 0, clickBoost: 1 }
+        { id: 'clickPower', name: 'Power Click', baseCost: 150, qty: 0, clickBoost: 1 },
+        // nouveaux éléments :
+        { id: 'mine', name: 'Mine de chips', baseCost: 10000, qty: 0, cps: 120 },
+        { id: 'goldenOven', name: 'Four doré', baseCost: 15000, qty: 0, multiplier: { target: 'grandma', factor: 2 } },
+        { id: 'factory', name: 'Méga-usine', baseCost: 50000, qty: 0, cps: 600 },
+        { id: 'portal', name: 'Portail dorito', baseCost: 250000, qty: 0, cps: 4000 },
+        { id: 'timeMachine', name: 'Machine temporelle', baseCost: 2000000, qty: 0, cps: 25000 },
+        { id: 'clickMultiplier', name: 'Doigt bionique', baseCost: 1000, qty: 0, clickBoost: 5 }
       ]
     };
 
@@ -249,14 +256,90 @@
     }
 
     function costFor(upg){ return Math.round(upg.baseCost * Math.pow(1.15, upg.qty)); }
+    const achievements = [
+      { id: 'firstClick', condition: () => state.cookies >= 1, name: 'Premier clic' },
+      { id: 'rich', condition: () => state.cookies >= 10000, name: '10 000 cookies !' },
+      { id: 'army', condition: () => state.upgrades.find(u => u.id === 'grandma')?.qty >= 10, name: '10 mémés' }
+    ];
 
-    function recalcState(){
-      state.cps = 0; state.perClick = 1;
+    const notifContainer = document.createElement('div');
+    notifContainer.id = 'notifContainer';
+    notifContainer.style.position = 'fixed';
+    notifContainer.style.bottom = '20px';
+    notifContainer.style.right = '20px';
+    notifContainer.style.display = 'flex';
+    notifContainer.style.flexDirection = 'column';
+    notifContainer.style.gap = '10px';
+    notifContainer.style.zIndex = '9999';
+    document.body.appendChild(notifContainer);
+
+    // --- fonction pour afficher une notif stylisée
+    function showNotification(text) {
+      const notif = document.createElement('div');
+      notif.className = 'notif';
+      notif.innerHTML = `🏆 <strong>${text}</strong>`;
+      
+      Object.assign(notif.style, {
+        background: 'linear-gradient(135deg, #ffcf4d, #ff9f1c)',
+        color: '#2b1500',
+        padding: '10px 16px',
+        borderRadius: '12px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+        fontFamily: 'policedorito, sans-serif',
+        fontSize: '16px',
+        transform: 'translateX(120%)',
+        opacity: '0',
+        transition: 'all 0.4s ease'
+      });
+
+      notifContainer.appendChild(notif);
+
+      // Animation d’apparition
+      requestAnimationFrame(() => {
+        notif.style.transform = 'translateX(0)';
+        notif.style.opacity = '1';
+      });
+
+      // Disparaît après 4 secondes
+      setTimeout(() => {
+        notif.style.transform = 'translateX(120%)';
+        notif.style.opacity = '0';
+        setTimeout(() => notif.remove(), 400);
+      }, 4000);
+    }
+
+    // --- fonction d’achievements avec notif
+    function checkAchievements() {
+      achievements.forEach(a => {
+        if (!a.unlocked && a.condition()) {
+          a.unlocked = true;
+          showNotification(`Succès débloqué : ${a.name}`);
+        }
+      });
+    }
+
+    function recalcState() {
+      state.cps = 0;
+      state.perClick = 1;
+      const multipliers = {};
+
+      // détecter les multiplicateurs
       state.upgrades.forEach(u => {
-        if (u.cps) state.cps += u.cps * u.qty;
+        if (u.multiplier && u.qty > 0) {
+          multipliers[u.multiplier.target] = (multipliers[u.multiplier.target] || 1) * u.multiplier.factor;
+        }
+      });
+
+      // appliquer la prod normale
+      state.upgrades.forEach(u => {
+        if (u.cps) {
+          const factor = multipliers[u.id] || 1;
+          state.cps += u.cps * u.qty * factor;
+        }
         if (u.clickBoost) state.perClick += u.clickBoost * u.qty;
       });
     }
+
 
     function renderUpgrades(){
       upgradesList.innerHTML = '';
@@ -302,7 +385,7 @@
         img.remove();
       });}
     // --- Click handling (mobile-first) ---
-    function clickCookie(){ if (!isMobile) return; state.cookies += state.perClick; clickSound.currentTime = 0; clickSound.play(); document.getElementById("cookieImgstar").style.visibility = "visible"; sleep(75).then(() => { document.getElementById("cookieImgstar").style.visibility = "hidden" }); 
+    function clickCookie(){ if (!isMobile) return; state.cookies += state.perClick; clickSound.currentTime = 0; clickSound.play(); document.getElementById("cookieImgstar").style.visibility = "visible"; sleep(75).then(() => { document.getElementById("cookieImgstar").style.visibility = "hidden"; checkAchievements()}); 
     create_dorito()
     animateCookie(); renderUpgrades(); }
 
