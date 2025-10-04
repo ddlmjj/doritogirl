@@ -316,14 +316,7 @@
     let count = 0
     setInterval(() => {
       if (!isMobile) return; // only when mobile
-      if (state.cps > 10) {
-      for (let i = 0; i < 10; i++) {
-         setTimeout(() => {
-          console.log("hello");
-          create_dorito();
-        }, i * 85);
-      }
-    }
+     
       state.cookies += state.cps / 1; // each second
       count += 1
       let yeux = document.getElementById("cookieImgyeux")
