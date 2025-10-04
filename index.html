@@ -104,6 +104,24 @@
       /* desktop: keep overlay but ensure background dim */
       .wrap{max-width:640px}
     }
+
+    @keyframes tomber {
+      0% {
+        top: -28%;
+        transform: rotate(-60deg);
+      }
+      90% {
+        top: 30%;
+        transform: rotate(360deg);
+      }
+      100% {
+        top: 55%; 
+        visibility: hidden;        
+      }
+    }
+    .fall {
+      animation: tomber 1s ease-in forwards;
+    }
   </style>
 </head>
 <body>
@@ -123,9 +141,11 @@
           </div>
             
       </div>
-      <div class="cookie-inner" id="cookieInner" style="position: relative;"> 
+      <div class="cookie-inner" id="cookieInnerdorito" style="position: relative;"> 
+       
       <img id="cookieImg" src="corp.png" alt="Cookie" width="350" height="508" style="margin-top: -25%; margin-bottom: -4%" />
             <img id="cookieImgyeux" src="yeux.png" alt="Cookie" width="118" height="168" style="position: absolute; top: 6%; left: 37%; transform: rotate(-90deg);">
+            <img id="cookieImgdoritopacket" src="dorito_packet.png" alt="Cookie" width="118" height="168" style="position: absolute; top: 60%; left: 40%;transform: rotate(5deg);">
             </div>
      
 
@@ -264,9 +284,27 @@
       const cost = costFor(u);
       if (state.cookies >= cost){ state.cookies -= cost; u.qty += 1; recalcState(); renderUpgrades(); }
     }
+    function create_dorito() { const img = document.createElement('img');
+      img.src = 'dorito.png';
+      img.alt = 'Cookie';
+      img.width = 63;
+      img.height = 71;
+      img.className = 'fall';
+      img.id = 'cookieImgdoritoclone';
+      img.style.position = 'absolute';
+      img.style.top = '53.5%';
+      img.style.left = '50%';
+      img.style.transform = 'rotate(-90deg)';
 
+      // Ajoute l'image à la page
+      document.getElementById("cookieInnerdorito").appendChild(img);
+       img.addEventListener('animationend', () => {
+        img.remove();
+      });}
     // --- Click handling (mobile-first) ---
-    function clickCookie(){ if (!isMobile) return; state.cookies += state.perClick; clickSound.currentTime = 0; clickSound.play(); document.getElementById("cookieImgstar").style.visibility = "visible"; sleep(75).then(() => { document.getElementById("cookieImgstar").style.visibility = "hidden" }); animateCookie(); renderUpgrades(); }
+    function clickCookie(){ if (!isMobile) return; state.cookies += state.perClick; clickSound.currentTime = 0; clickSound.play(); document.getElementById("cookieImgstar").style.visibility = "visible"; sleep(75).then(() => { document.getElementById("cookieImgstar").style.visibility = "hidden" }); 
+    create_dorito()
+    animateCookie(); renderUpgrades(); }
 
     // use touchstart for responsiveness, fallback to click
     cookieBtn.addEventListener('touchstart', (e)=>{ e.preventDefault(); clickCookie(); });
@@ -278,6 +316,14 @@
     let count = 0
     setInterval(() => {
       if (!isMobile) return; // only when mobile
+      if (state.cps > 10) {
+      for (let i = 0; i < 10; i++) {
+         setTimeout(() => {
+          console.log("hello");
+          create_dorito();
+        }, i * 85);
+      }
+    }
       state.cookies += state.cps / 1; // each second
       count += 1
       let yeux = document.getElementById("cookieImgyeux")
