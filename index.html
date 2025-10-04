@@ -131,7 +131,7 @@
     <div class="card cookie-area" style="position: absolute; bottom: 0%">
        <div class="stats" style="position: absolute; top: -5%">
         <div class="big-num" id="cookiesDisplay" style="font-family: policedorito; font-size: 80px">0</div>
-        <div class="muted">Cookies — <span id="cpsDisplay">0</span> / s • <span id="perClickDisplay">1</span> par clic</div>
+        <div class="muted">Dorito — <span id="cpsDisplay">0</span> / s • <span id="perClickDisplay">1</span> par clic</div>
       </div>
       <div class="cookie-btn" id="cookieBtn" aria-hidden="false" >
         <div class="cookie-inner" id="cookieInner" style="position: relative;"> 
@@ -162,7 +162,7 @@
       <div class="controls">
         <button class="pill" id="saveBtn">Sauvegarder</button>
         <button class="pill" id="resetBtn">Réinitialiser</button>
-        <label class="pill"><input type="checkbox" id="autobuyCheckbox" style="margin-right:8px"> Achat auto</label>
+        
       </div>
 
     </div>
@@ -417,10 +417,7 @@
         sleep(500).then(() => { yeux.src = "yeux.png" });
       }
       // auto-buy if enabled
-      if (autobuyCheckbox.checked) {
-        const affordable = state.upgrades.map(u => ({u, c: costFor(u)})).filter(x => state.cookies >= x.c).sort((a,b) => a.c - b.c);
-        if (affordable.length) buyUpgrade(affordable[0].u.id);
-      }
+      
       renderUpgrades();
     }, 1000);
 
@@ -457,6 +454,155 @@
 
     // init
     load(); recalcState(); renderUpgrades();
+
+    // === BONUS DORITO VOLANT ===
+
+    // paramètres du bonus
+    const BONUS_DURATION = 30000; // 30 secondes
+    const BONUS_MULTIPLIER = 2; // double la production
+    const BONUS_SPAWN_INTERVAL = 10000; // apparaît toutes les 60 sec
+
+    let bonusActive = false;
+    let bonusElement = null;
+    let bonusVelocity = { x: 1, y: 1 };
+    let bonusAngle = 0;
+    let bonusAnim;
+
+    // fonction qui active le bonus
+    function activateBonus() {
+      if (bonusActive) return;
+      bonusActive = true;
+
+      state.perClick *= BONUS_MULTIPLIER;
+      state.cps *= BONUS_MULTIPLIER;
+
+      // petit effet visuel
+      const overlay = document.createElement('div');
+      overlay.textContent = "🔥 BONUS ×2 ACTIVÉ !";
+      Object.assign(overlay.style, {
+        position: 'fixed',
+        top: '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        background: 'linear-gradient(135deg, #ffcf4d, #ff9f1c)',
+        color: '#2b1500',
+        padding: '10px 20px',
+        borderRadius: '12px',
+        fontFamily: 'policedorito, sans-serif',
+        fontWeight: '700',
+        fontSize: '18px',
+        zIndex: 9999,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+        transition: 'opacity 0.5s ease'
+      });
+      document.body.appendChild(overlay);
+      setTimeout(() => { overlay.style.opacity = '0'; setTimeout(() => overlay.remove(), 500); }, 3000);
+
+      // désactiver le bonus après un délai
+      setTimeout(() => {
+        state.perClick /= BONUS_MULTIPLIER;
+        state.cps /= BONUS_MULTIPLIER;
+        bonusActive = false;
+      }, BONUS_DURATION);
+    }
+
+    // création du bonus visuel
+    function spawnBonus() {
+      if (bonusElement) return; // éviter plusieurs à la fois
+
+      bonusElement = document.createElement('img');
+      bonusElement.src = 'bonus_dorito.png'; // ton image (mets le fichier dans ton dossier)
+      bonusElement.alt = 'Bonus Dorito';
+      bonusElement.width = 64;
+      bonusElement.height = 64;
+      bonusElement.style.position = 'fixed';
+      bonusElement.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+      bonusElement.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+      bonusElement.style.cursor = 'pointer';
+      bonusElement.style.zIndex = 9998;
+      bonusElement.style.transition = 'transform 0.1s linear';
+      document.body.appendChild(bonusElement);
+
+      bonusVelocity = { x: (Math.random() * 3 + 1) * (Math.random() < 0.5 ? -1 : 1),
+                        y: (Math.random() * 3 + 1) * (Math.random() < 0.5 ? -1 : 1) };
+
+      // clic = active bonus
+      bonusElement.addEventListener('click', () => {
+        activateBonus();
+        destroyBonus();
+      });
+
+      moveBonus();
+    }
+
+    // mouvement du bonus (rebond + rotation)
+    // --- Variables globales du bonus ---
+    let bonusX = Math.random() * (window.innerWidth - 100);
+    let bonusY = Math.random() * (window.innerHeight - 100);
+    let senstourne = 1
+
+    // --- Fonction de déplacement corrigée ---
+    function moveBonus() {
+      if (!bonusElement) return;
+
+      // mise à jour de la position
+      bonusX += bonusVelocity.x;
+      bonusY += bonusVelocity.y;
+
+      // rebonds horizontaux
+      if (bonusX <= 0) {
+        bonusX = 0;
+        bonusVelocity.x *= -1;
+      } else if (bonusX + bonusElement.width >= window.innerWidth) {
+        bonusX = window.innerWidth - bonusElement.width;
+        bonusVelocity.x *= -1;
+      }
+
+      // rebonds verticaux
+      if (bonusY <= 0) {
+        bonusY = 0;
+        bonusVelocity.y *= -1;
+        senstourne = senstourne*-1
+      } else if (bonusY + bonusElement.height >= window.innerHeight) {
+        bonusY = window.innerHeight - bonusElement.height;
+        bonusVelocity.y *= -1;
+        senstourne = senstourne*-1
+      }
+
+      // rotation douce
+
+      bonusAngle += 2*senstourne;
+      if (bonusAngle >= 360) bonusAngle -= 360;
+
+      // appliquer position et rotation
+      bonusElement.style.left = bonusX + "px";
+      bonusElement.style.top = bonusY + "px";
+      bonusElement.style.transform = `rotate(${bonusAngle}deg)`;
+
+      // prochaine frame
+      bonusAnim = requestAnimationFrame(moveBonus);
+    }
+
+
+    // détruire le bonus après 10 sec s’il n’est pas cliqué
+    function destroyBonus() {
+      if (!bonusElement) return;
+      cancelAnimationFrame(bonusAnim);
+      bonusElement.remove();
+      bonusElement = null;
+    }
+
+    // générer un bonus toutes les X secondes
+    setInterval(() => {
+      if (!bonusActive && !bonusElement) spawnBonus();
+      setTimeout(destroyBonus, 10000); // il disparaît après 10 secondes
+    }, BONUS_SPAWN_INTERVAL);
+
+
+
+
+
+
 
     // handle orientation/resize changes to re-evaluate mobile detection
     let resizeTimer;
