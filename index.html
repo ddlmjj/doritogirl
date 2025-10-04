@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Autoclickeur Mobile — Cookie Clickeur (mobile only)</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+
+  <style>
+    :root{--bg:#071020;--card:#06101a;--accent:#ffd166;--muted:#94a3b8}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,Segoe UI,Roboto,Arial;background-image: url("back.png");color:#e6eef6;display:flex;align-items:flex-start;justify-content:center;padding:env(safe-area-inset-top) 12px 12px;}
+    @font-face {
+      font-family: 'policedorito';
+      src: url('font.woff2') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+    /* Container mobile-first */
+    .wrap{width:100%;max-width:480px;margin:12px 0;display:flex;flex-direction:column;gap:12px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:16px;border-radius:14px;}
+
+    .cookie-area{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px}
+    .cookie-btn{width:78vw;max-width:340px;height:78vw;max-height:340px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .08s ease;-webkit-tap-highlight-color:transparent}
+    .cookie-inner{font-size:48px;font-weight:700;color:#2b1500;text-shadow:0 1px 0 #fff7c2}
+
+    .stats{margin-top:12px;text-align:center;color:white;}
+    .big-num{font-size:22px;font-weight:700}
+    .muted{color:var(--muted);font-size:13px}
+
+    .upgrades{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+    .upgrade{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid rgba(255,255,255,0.03)}
+    .row{display:flex;gap:8px;align-items:center}
+    .buy-btn{background:linear-gradient(180deg,var(--accent),#ffb74d);background-image: url("corp.png");border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:700}
+    .buy-btn[disabled]{opacity:0.45;cursor:not-allowed}
+    .small{font-size:13px;color:var(--muted)}
+
+    .controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+    .pill{padding:8px 10px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);font-size:14px;cursor:pointer;font-family: policedorito;}
+
+    footer{margin-top:8px;font-size:13px;color:var(--muted);text-align:center}
+
+    /* Overlay for non-mobile devices */
+    .overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,0.7),rgba(0,0,0,0.85));color:#fff;padding:20px;z-index:9999}
+    .overlay .box{max-width:560px;background:rgba(255,255,255,0.03);padding:18px;border-radius:12px;text-align:center}
+    .overlay h2{margin:0 0 6px 0}
+    .overlay p{margin:0 0 8px 0;color:#dfeefc}
+    .menu-toggle {
+      position: absolute;
+      box-shadow:0 5px 10px rgba(0,0,0,0.5);
+      top: 12px;
+      left: 12px;
+      background: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 10px;
+      color: black;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .menu-panel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.95); /* fond clair */
+      color: #A8A8A8;
+      backdrop-filter: blur(6px);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(-100%);
+      transition: transform 0.4s ease;
+      z-index: 9;
+      overflow-y: auto;
+    }
+
+    .menu-panel.open {
+      transform: translateY(0);
+    }
+
+    .menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .close-menu {
+      background: rgba(255,255,255,0.08);
+      border: none;
+      border-radius: 8px;
+      padding: 6px 10px;
+      color: #A8A8A8;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    @media (min-width:900px){
+      /* desktop: keep overlay but ensure background dim */
+      .wrap{max-width:640px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" id="app">
+    <button class="menu-toggle" id="openMenu" aria-label="Ouvrir la boutique"><img id="cookieImgshop" src="shop.png" alt="Cookie" width="43.65" height="55.2" style="position: relative;"> <span style="position: absolute; left: 19%; top:65%;font-family: policedorito;">Shop</span>
+ </button>
+    <div class="card cookie-area" style="position: absolute; bottom: 0%">
+       <div class="stats" style="position: absolute; top: 4%">
+        <div class="big-num" id="cookiesDisplay" style="font-family: policedorito; font-size: 80px">0</div>
+        <div class="muted">Cookies — <span id="cpsDisplay">0</span> / s • <span id="perClickDisplay">1</span> par clic</div>
+      </div>
+      <div class="cookie-btn" id="cookieBtn" aria-hidden="false" >
+        <div class="cookie-inner" id="cookieInner" style="position: relative;"> 
+            <img id="cookieImgstar" src="star.png" alt="Cookie" width="69" height="69" style="position: absolute; top: 17px; left: -30px; transform: rotate(-45deg);visibility:hidden">
+            <img id="cookieImgdorito" src="dorito.png" alt="Cookie" width="63" height="71" style="position: absolute; top: 47.5%; left: 50%; transform: rotate(-90deg);">
+            
+          </div>
+            
+      </div>
+      <div class="cookie-inner" id="cookieInner" style="position: relative;"> 
+      <img id="cookieImg" src="corp.png" alt="Cookie" width="350" height="508" style="margin-top: -91px;" />
+            <img id="cookieImgyeux" src="yeux.png" alt="Cookie" width="118" height="168" style="position: absolute; top: 6%; left: 37%; transform: rotate(-90deg);">
+            </div>
+     
+
+    
+    </div>
+
+    <div class="menu-panel" id="menuPanel">
+      <div class="menu-header">
+        <h2>Boutique</h2>
+        <button class="close-menu" id="closeMenu">✕</button>
+      </div>
+      <div class="upgrades" id="upgradesList"></div>
+
+      <div class="controls">
+        <button class="pill" id="saveBtn">Sauvegarder</button>
+        <button class="pill" id="resetBtn">Réinitialiser</button>
+        <label class="pill"><input type="checkbox" id="autobuyCheckbox" style="margin-right:8px"> Achat auto</label>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="overlay" id="nonMobileOverlay" style="display:none">
+    <div class="box">
+      <h2>Version mobile uniquement</h2>
+      <p>Ce jeu fonctionne uniquement sur téléphone (interface tactile). Ouvre cette page sur ton smartphone pour jouer.</p>
+      <div style="margin-top:10px"><button class="pill" id="forceDesktopBtn">Forcer mode (développeur)</button></div>
+    </div>
+  </div>
+
+  <script>
+    // --- Détection mobile ---
+    function detectMobile(){
+      const ua = navigator.userAgent || '';
+      const mobileUa = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+      const hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+      const smallScreen = Math.max(window.innerWidth, window.innerHeight) <= 820; // include portrait/landscape
+      return mobileUa || hasTouch || smallScreen;
+    }
+
+    let isMobile = detectMobile();
+    const overlay = document.getElementById('nonMobileOverlay');
+    const cookieBtn = document.getElementById('cookieBtn');
+
+    function showNonMobile(){
+      overlay.style.display = 'flex';
+      // disable interactions
+      cookieBtn.setAttribute('aria-hidden','true');
+      cookieBtn.style.opacity = 0.35;
+      document.getElementById('upgradesList').querySelectorAll('.buy-btn')?.forEach(b=>b.disabled=true);
+      document.querySelectorAll('.pill').forEach(p=>p.disabled=true);
+    }
+
+    function hideNonMobile(){
+      overlay.style.display = 'none';
+      cookieBtn.setAttribute('aria-hidden','false');
+      cookieBtn.style.opacity = 1;
+      renderUpgrades();
+      document.querySelectorAll('.pill').forEach(p=>p.disabled=false);
+    }
+
+    if (!isMobile){ showNonMobile(); }
+
+    // allow forcing mode for dev/testing on desktop
+    document.getElementById('forceDesktopBtn').addEventListener('click', ()=>{ isMobile = true; hideNonMobile(); });
+
+    // --- Données de jeu ---
+    const state = {
+      cookies: 0,
+      cps: 0,
+      perClick: 1,
+      upgrades: [
+        { id: 'autoclicker', name: 'Autoclickeur', baseCost: 50, qty: 0, cps: 1 },
+        { id: 'grandma', name: 'Mémé', baseCost: 200, qty: 0, cps: 5 },
+        { id: 'farm', name: 'Usine', baseCost: 2000, qty: 0, cps: 25 },
+        { id: 'clickPower', name: 'Power Click', baseCost: 150, qty: 0, clickBoost: 1 }
+      ]
+    };
+
+    // --- Références DOM ---
+    const cookiesDisplay = document.getElementById('cookiesDisplay');
+    const cpsDisplay = document.getElementById('cpsDisplay');
+    const perClickDisplay = document.getElementById('perClickDisplay');
+    const upgradesList = document.getElementById('upgradesList');
+    const saveBtn = document.getElementById('saveBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const autobuyCheckbox = document.getElementById('autobuyCheckbox');
+    const clickSound = new Audio("dorito_sound.webm");
+    const menuPanel = document.getElementById('menuPanel');
+    const openMenu = document.getElementById('openMenu');
+    const closeMenu = document.getElementById('closeMenu');
+    clickSound.volume = 0.5;
+
+    // --- Utilitaires ---
+    function format(n){
+      if (n < 10000) return Math.floor(n).toLocaleString();
+      const units = ['k','M','G','T'];
+      let i = -1; let v = n;
+      while(v >= 1000 && i < units.length-1){ v /= 1000; i++; }
+      return v.toFixed( (v<10 && i>=0)?1:0 ) + units[i];
+    }
+
+    function costFor(upg){ return Math.round(upg.baseCost * Math.pow(1.15, upg.qty)); }
+
+    function recalcState(){
+      state.cps = 0; state.perClick = 1;
+      state.upgrades.forEach(u => {
+        if (u.cps) state.cps += u.cps * u.qty;
+        if (u.clickBoost) state.perClick += u.clickBoost * u.qty;
+      });
+    }
+
+    function renderUpgrades(){
+      upgradesList.innerHTML = '';
+      state.upgrades.forEach(u => {
+        const div = document.createElement('div');
+        div.className = 'upgrade';
+        div.innerHTML = `\n          <div>\n            <div style="font-weight:700">${u.name} <span class="small" style="font-weight:400">x${u.qty}</span></div>\n            <div class="small">${u.cps ? u.cps + ' /s' : (u.clickBoost ? '+'+u.clickBoost+' par clic' : '')}</div>\n          </div>\n          <div class="row">\n            <div style="text-align:right;margin-right:8px">\n              <div class="small">Coût</div>\n              <div style="font-weight:700">${format(costFor(u))}</div>\n            </div>\n            <button class="buy-btn" ${(!isMobile || state.cookies < costFor(u)) ? 'disabled' : ''} data-id="${u.id}">Acheter</button>\n          </div>\n        `;
+        upgradesList.appendChild(div);
+      });
+
+      cookiesDisplay.textContent = format(state.cookies);
+      cpsDisplay.textContent = format(state.cps);
+      perClickDisplay.textContent = format(state.perClick);
+
+      // attach listeners safe (re-attach after render)
+      upgradesList.querySelectorAll('.buy-btn').forEach(btn => {
+        btn.onclick = () => { if (isMobile) buyUpgrade(btn.dataset.id); };
+        // touch support
+        btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); if (isMobile) buyUpgrade(btn.dataset.id); });
+      });
+    }
+
+    function buyUpgrade(id){
+      const u = state.upgrades.find(x => x.id === id);
+      const cost = costFor(u);
+      if (state.cookies >= cost){ state.cookies -= cost; u.qty += 1; recalcState(); renderUpgrades(); }
+    }
+
+    // --- Click handling (mobile-first) ---
+    function clickCookie(){ if (!isMobile) return; state.cookies += state.perClick; clickSound.currentTime = 0; clickSound.play(); document.getElementById("cookieImgstar").style.visibility = "visible"; sleep(75).then(() => { document.getElementById("cookieImgstar").style.visibility = "hidden" }); animateCookie(); renderUpgrades(); }
+
+    // use touchstart for responsiveness, fallback to click
+    cookieBtn.addEventListener('touchstart', (e)=>{ e.preventDefault(); clickCookie(); });
+    cookieBtn.addEventListener('click', (e)=>{ if (isMobile) clickCookie(); });
+    function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+    // --- Passive income tick ---
+    let count = 0
+    setInterval(() => {
+      if (!isMobile) return; // only when mobile
+      state.cookies += state.cps / 1; // each second
+      count += 1
+      let yeux = document.getElementById("cookieImgyeux")
+      
+      if(count%6 === 0) {
+        if(yeux.src.endsWith("yeux.png")) {
+            yeux.src = "yeux3.png"
+            sleep(125).then(() => { yeux.src = "yeux.png" });
+
+        } else {
+           yeux.src = "yeux.png"
+        }
+      } else if (count%20 === 0){
+        yeux.src = "yeux2.png"
+        sleep(500).then(() => { yeux.src = "yeux.png" });
+      }
+      // auto-buy if enabled
+      if (autobuyCheckbox.checked) {
+        const affordable = state.upgrades.map(u => ({u, c: costFor(u)})).filter(x => state.cookies >= x.c).sort((a,b) => a.c - b.c);
+        if (affordable.length) buyUpgrade(affordable[0].u.id);
+      }
+      renderUpgrades();
+    }, 1000);
+
+    // --- Animations ---
+    function animateCookie(){
+      cookieBtn.animate([
+        { transform: 'scale(1)' },
+        { transform: 'scale(0.96)' },
+        { transform: 'scale(1)' }
+      ],{ duration: 110, easing: 'ease-out' });
+    }
+
+    // --- Sauvegarde / Chargement ---
+    function save(){
+      const toSave = { cookies: state.cookies, upgrades: state.upgrades.map(u => ({id:u.id,qty:u.qty})) };
+      localStorage.setItem('miniCookieSave_mobile_v1', JSON.stringify(toSave));
+      flashSave();
+    }
+
+    function load(){
+      const raw = localStorage.getItem('miniCookieSave_mobile_v1');
+      if (!raw) return;
+      try{ const data = JSON.parse(raw); state.cookies = data.cookies || 0; data.upgrades && data.upgrades.forEach(su => { const u = state.upgrades.find(x=>x.id===su.id); if (u) u.qty = su.qty || 0; }); recalcState(); }catch(e){ console.warn('Corrupted save'); }
+    }
+
+    function flashSave(){ saveBtn.textContent = 'Sauvé ✓'; setTimeout(()=> saveBtn.textContent = 'Sauvegarder', 900); }
+    openMenu.onclick = () => {menuPanel.classList.add('open'); openMenu.style.visibility = "hidden"}
+    closeMenu.onclick = () => {menuPanel.classList.remove('open'); openMenu.style.visibility = "visible"}
+    saveBtn.addEventListener('click', ()=>{ if (isMobile) save(); });
+    resetBtn.addEventListener('click', ()=>{ if (!isMobile) return; if (!confirm('Réinitialiser la partie ?')) return; localStorage.removeItem('miniCookieSave_mobile_v1'); state.cookies = 0; state.upgrades.forEach(u=>u.qty=0); recalcState(); renderUpgrades(); });
+
+    // auto-save régulière (mobile uniquement)
+    setInterval(()=>{ if (isMobile) save(); }, 5000);
+
+    // init
+    load(); recalcState(); renderUpgrades();
+
+    // handle orientation/resize changes to re-evaluate mobile detection
+    let resizeTimer;
+    window.addEventListener('resize', ()=>{ clearTimeout(resizeTimer); resizeTimer = setTimeout(()=>{ const newMobile = detectMobile(); if (newMobile !== isMobile){ isMobile = newMobile; if (!isMobile) showNonMobile(); else hideNonMobile(); } }, 250); });
+  </script>
+</body>
+</html>
