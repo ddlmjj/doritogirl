@@ -40,7 +40,10 @@
     .pill{padding:8px 10px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);font-size:14px;cursor:pointer;font-family: policedorito;}
 
     footer{margin-top:8px;font-size:13px;color:var(--muted);text-align:center}
-
+    .upgrade.special {
+      border: 1px solid gold;
+      box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+    }
     /* Overlay for non-mobile devices */
     .overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,0.7),rgba(0,0,0,0.85));color:#fff;padding:20px;z-index:9999}
     .overlay .box{max-width:560px;background:rgba(255,255,255,0.03);padding:18px;border-radius:12px;text-align:center}
@@ -220,15 +223,75 @@
       upgrades: [
         { id: 'autoclicker', name: 'Autoclickeur', baseCost: 50, qty: 0, cps: 1 },
         { id: 'grandma', name: 'Mémé', baseCost: 200, qty: 0, cps: 5 },
-        { id: 'farm', name: 'Usine', baseCost: 2000, qty: 0, cps: 25 },
-        { id: 'clickPower', name: 'Power Click', baseCost: 150, qty: 0, clickBoost: 1 },
-        // nouveaux éléments :
+        { id: 'farm', name: 'Ferme à biscuits', baseCost: 2000, qty: 0, cps: 25 },
         { id: 'mine', name: 'Mine de chips', baseCost: 10000, qty: 0, cps: 120 },
-        { id: 'goldenOven', name: 'Four doré', baseCost: 15000, qty: 0, multiplier: { target: 'grandma', factor: 2 } },
         { id: 'factory', name: 'Méga-usine', baseCost: 50000, qty: 0, cps: 600 },
-        { id: 'portal', name: 'Portail dorito', baseCost: 250000, qty: 0, cps: 4000 },
-        { id: 'timeMachine', name: 'Machine temporelle', baseCost: 2000000, qty: 0, cps: 25000 },
-        { id: 'clickMultiplier', name: 'Doigt bionique', baseCost: 1000, qty: 0, clickBoost: 5 }
+        { id: 'bank', name: 'Banque à cookies', baseCost: 300000, qty: 0, cps: 3200 },
+        { id: 'temple', name: 'Temple croustillant', baseCost: 1200000, qty: 0, cps: 15000 },
+        { id: 'wizard', name: 'Tour du magicien', baseCost: 10000000, qty: 0, cps: 90000 },
+        { id: 'portal', name: 'Portail Dorito', baseCost: 25000000, qty: 0, cps: 400000 },
+        { id: 'timeMachine', name: 'Machine temporelle', baseCost: 200000000, qty: 0, cps: 2500000 },
+        { id: 'planet', name: 'Planète Dorito', baseCost: 2500000000, qty: 0, cps: 15000000 },
+        { id: 'universe', name: 'Four cosmique', baseCost: 15000000000, qty: 0, cps: 85000000 },
+        { id: 'b26', name: 'Citadelle Dorée', baseCost: 2e18, qty: 0, cps: 2e15 },
+        { id: 'b27', name: 'Spire Infinie', baseCost: 8e18, qty: 0, cps: 9e15 },
+        { id: 'b28', name: 'Tour des Âges', baseCost: 3e19, qty: 0, cps: 4e16 },
+        { id: 'b29', name: 'Usine du Néant', baseCost: 1.2e20, qty: 0, cps: 1.6e17 },
+        { id: 'b30', name: 'Cœur Temporel', baseCost: 4.5e20, qty: 0, cps: 6e17 },
+        { id: 'b31', name: 'Nexus d’Énergie Pure', baseCost: 1.8e21, qty: 0, cps: 2.4e18 },
+        { id: 'b32', name: 'Forge du Chaos', baseCost: 7.5e21, qty: 0, cps: 9e18 },
+        { id: 'b33', name: 'Station Interdimensionnelle', baseCost: 3e22, qty: 0, cps: 3.6e19 },
+        { id: 'b34', name: 'Moteur Céleste', baseCost: 1.2e23, qty: 0, cps: 1.4e20 },
+        { id: 'b35', name: 'Anneau du Vide', baseCost: 5e23, qty: 0, cps: 6e20 },
+        { id: 'b36', name: 'Monolithe Dorito', baseCost: 2.2e24, qty: 0, cps: 2.4e21 },
+        { id: 'b37', name: 'Étoile Croustillante', baseCost: 9e24, qty: 0, cps: 1.1e22 },
+        { id: 'b38', name: 'Chantier Galactique', baseCost: 4e25, qty: 0, cps: 4.5e22 },
+        { id: 'b39', name: 'Forge Stellaire', baseCost: 1.6e26, qty: 0, cps: 1.8e23 },
+        { id: 'b40', name: 'Atelier de l’Éternité', baseCost: 6.5e26, qty: 0, cps: 7.5e23 },
+        { id: 'b41', name: 'Réseau d’Essence Pure', baseCost: 2.8e27, qty: 0, cps: 3e24 },
+        { id: 'b42', name: 'Forge de l’Absolu', baseCost: 1.1e28, qty: 0, cps: 1.2e25 },
+        { id: 'b43', name: 'Noyau de Réalité', baseCost: 4.7e28, qty: 0, cps: 5e25 },
+        { id: 'b44', name: 'Spire Quantique', baseCost: 2e29, qty: 0, cps: 2e26 },
+        { id: 'b45', name: 'Portail des Mondes', baseCost: 8e29, qty: 0, cps: 8e26 },
+        { id: 'b46', name: 'Ancre du Multivers', baseCost: 3.5e30, qty: 0, cps: 3e27 },
+        { id: 'b47', name: 'Forge d’Antimatière', baseCost: 1.5e31, qty: 0, cps: 1.2e28 },
+        { id: 'b48', name: 'Tour de Convergence', baseCost: 6e31, qty: 0, cps: 5e28 },
+        { id: 'b49', name: 'Fonderie Cosmique', baseCost: 2.5e32, qty: 0, cps: 2e29 },
+        { id: 'b50', name: 'Atelier de Résonance', baseCost: 1e33, qty: 0, cps: 8e29 },
+        { id: 'b51', name: 'Bastion du Vide', baseCost: 4e33, qty: 0, cps: 3.5e30 },
+        { id: 'b52', name: 'Sanctuaire Dorito', baseCost: 1.8e34, qty: 0, cps: 1.5e31 },
+        { id: 'b53', name: 'Forge de l’Aube', baseCost: 7.5e34, qty: 0, cps: 6e31 },
+        { id: 'b54', name: 'Couronne des Titans', baseCost: 3e35, qty: 0, cps: 2.5e32 },
+        { id: 'b55', name: 'Noyau Primordial', baseCost: 1.2e36, qty: 0, cps: 1e33 },
+        { id: 'b56', name: 'Tour de Lumière', baseCost: 5e36, qty: 0, cps: 4e33 },
+        { id: 'b57', name: 'Forge des Mondes Perdus', baseCost: 2e37, qty: 0, cps: 1.7e34 },
+        { id: 'b58', name: 'Citadelle du Temps', baseCost: 8e37, qty: 0, cps: 7e34 },
+        { id: 'b59', name: 'Puits d’Éternité', baseCost: 3.2e38, qty: 0, cps: 3e35 },
+        { id: 'b60', name: 'Cœur Universel', baseCost: 1.3e39, qty: 0, cps: 1.3e36 },
+        { id: 'b61', name: 'Forge des Origines', baseCost: 5.5e39, qty: 0, cps: 5.5e36 },
+        { id: 'b62', name: 'Arche du Néant', baseCost: 2.5e40, qty: 0, cps: 2.5e37 },
+        { id: 'b63', name: 'Pilier de l’Infini', baseCost: 1e41, qty: 0, cps: 1.1e38 },
+        { id: 'b64', name: 'Sphère de Création', baseCost: 4.5e41, qty: 0, cps: 4.5e38 },
+        { id: 'b65', name: 'Trône Cosmique', baseCost: 2e42, qty: 0, cps: 2e39 },
+
+        // --- Boosts de clics ---
+        { id: 'clickPower', name: 'Doigt turbo', baseCost: 150, qty: 0, clickBoost: 1 },
+        { id: 'clickBooster', name: 'Main robotique', baseCost: 1200, qty: 0, clickBoost: 5 },
+        { id: 'goldenClick', name: 'Gant en or', baseCost: 10000, qty: 0, clickBoost: 15 },
+        { id: 'infiniteClick', name: 'Clic divin', baseCost: 250000, qty: 0, clickBoost: 75 },
+
+        // --- Objets spéciaux (petits bonus à effet global) ---
+        { id: 'cookieMine', name: 'Gisement sucré', baseCost: 75000, qty: 0, cps: 2000, clickBoost: 5 },
+        { id: 'boosterChip', name: 'Puce Dorito', baseCost: 1000000, qty: 0, cps: 15000, clickBoost: 10 },
+        { id: 'quantumOven', name: 'Four quantique', baseCost: 25000000, qty: 0, cps: 200000, clickBoost: 25 },
+        { id: 'nexus', name: 'Nexus croustillant', baseCost: 100000000, qty: 0, cps: 1500000, clickBoost: 40 },
+
+        // --- Objets spéciaux à effet unique ---
+        { id: 'goldenOven', name: 'Four Doré', baseCost: 15000, qty: 0, special: 'doubleGrandma' },
+        { id: 'sacredBook', name: 'Livre Sacré du Cookie', baseCost: 100000, qty: 0, special: 'doubleClickPower' },
+        { id: 'cookieStorm', name: 'Tempête de Cookies', baseCost: 500000, qty: 0, special: 'bonusTemporaire' },
+        { id: 'darkPortal', name: 'Portail Obscur', baseCost: 2500000, qty: 0, special: 'doubleCps' },
+        { id: 'timeReverser', name: 'Inverseur du Temps', baseCost: 20000000, qty: 0, special: 'slowBonusDecay' }
       ]
     };
 
@@ -259,7 +322,9 @@
     const achievements = [
       { id: 'firstClick', condition: () => state.cookies >= 1, name: 'Premier clic' },
       { id: 'rich', condition: () => state.cookies >= 10000, name: '10 000 cookies !' },
-      { id: 'army', condition: () => state.upgrades.find(u => u.id === 'grandma')?.qty >= 10, name: '10 mémés' }
+      { id: 'army', condition: () => state.upgrades.find(u => u.id === 'grandma')?.qty >= 10, name: '10 mémés' },
+      { id: 'bigarmy', condition: () => state.upgrades.find(u => u.id === 'grandma')?.qty >= 100, name: '100 mémés' },
+      { id: 'veryrich', condition: () => state.cookies >= 1000000000, name: '1 000 000 000 cookies !' }
     ];
 
     const notifContainer = document.createElement('div');
@@ -344,15 +409,19 @@
     function renderUpgrades(){
       upgradesList.innerHTML = '';
       state.upgrades.forEach(u => {
+        
+
         const div = document.createElement('div');
         div.className = 'upgrade';
-        div.innerHTML = `\n          <div>\n            <div style="font-weight:700">${u.name} <span class="small" style="font-weight:400">x${u.qty}</span></div>\n            <div class="small">${u.cps ? u.cps + ' /s' : (u.clickBoost ? '+'+u.clickBoost+' par clic' : '')}</div>\n          </div>\n          <div class="row">\n            <div style="text-align:right;margin-right:8px">\n              <div class="small">Coût</div>\n              <div style="font-weight:700">${format(costFor(u))}</div>\n            </div>\n            <button class="buy-btn" ${(!isMobile || state.cookies < costFor(u)) ? 'disabled' : ''} data-id="${u.id}">Acheter</button>\n          </div>\n        `;
+        div.innerHTML = `\n          <div>\n            <div style="font-weight:700">${u.name} <span class="small" style="font-weight:400">x${u.qty}</span></div>\n            <div class="small">${u.cps ? u.cps + ' /s' : (u.clickBoost ? '+'+u.clickBoost+' par clic' : '')}</div>\n          </div>\n          <div class="row">\n            <div style="text-align:right;margin-right:8px">\n              <div class="small">Coût</div>\n              <div style="font-weight:700">${format(costFor(u))}</div>\n            </div>\n            <button class="buy-btn" ${(!isMobile || (state.cookies < costFor(u)) || (u.special && u.qty === 1))  ? 'disabled' : ''} data-id="${u.id}">Acheter</button>\n          </div>\n        `;
         upgradesList.appendChild(div);
+        if (u.special) div.classList.add('special');
       });
 
       cookiesDisplay.textContent = format(state.cookies);
       cpsDisplay.textContent = format(state.cps);
       perClickDisplay.textContent = format(state.perClick);
+      
 
       // attach listeners safe (re-attach after render)
       upgradesList.querySelectorAll('.buy-btn').forEach(btn => {
@@ -362,10 +431,67 @@
       });
     }
 
+
+    function applySpecialEffect(id) {
+      switch (id) {
+        case 'goldenOven':
+          // Double les mémés
+          const grandma = state.upgrades.find(u => u.id === 'grandma');
+          if (grandma) grandma.cps *= 2;
+          showNotification('🔥 Les Mémés produisent 2x plus de cookies !');
+          break;
+
+        case 'sacredBook':
+          // Double les clics
+          state.perClick *= 2;
+          showNotification('📖 Tes clics valent 2x plus !');
+          break;
+
+        case 'cookieStorm':
+          // Bonus temporaire de 30s
+          if (window.cookieStormActive) return; // pas cumulable
+          window.cookieStormActive = true;
+          const oldCps = state.cps*2 ;
+          const oldClick = state.perClick*2;
+          state.cps *= 3;
+          state.perClick *= 3;
+          showNotification('🌩 Tempête de cookies ! +300% pendant 30s !');
+          renderUpgrades();
+          setTimeout(() => {
+            state.cps -= oldCps;
+            state.perClick -= oldClick;
+            window.cookieStormActive = false;
+            showNotification('🌦 La tempête s’apaise...');
+          }, window.bonusDuration || 30000);
+          break;
+
+        case 'darkPortal':
+          // Double tous les CPS
+          state.upgrades.forEach(u => {
+            if (u.cps) u.cps *= 2;
+          });
+          showNotification('🌀 Tous tes bâtiments produisent 2x plus !');
+          break;
+
+        case 'timeReverser':
+          // Allonge la durée des bonus temporaires
+          window.bonusDuration = 60000;
+          showNotification('⏳ Les effets durent désormais 2x plus longtemps !');
+          break;
+      }
+    }
     function buyUpgrade(id){
+      console.log("hello")
       const u = state.upgrades.find(x => x.id === id);
       const cost = costFor(u);
-      if (state.cookies >= cost){ state.cookies -= cost; u.qty += 1; recalcState(); renderUpgrades(); }
+      if (u.special) {
+        if (u.qty < 1) {
+        applySpecialEffect(u.id);
+        if (state.cookies >= cost){ state.cookies -= cost; u.qty += 1; recalcState(); renderUpgrades(); }
+        }
+      } else {
+        if (state.cookies >= cost){ state.cookies -= cost; u.qty += 1; recalcState(); renderUpgrades(); }
+      }
     }
     function create_dorito() { const img = document.createElement('img');
       img.src = 'dorito.png';
