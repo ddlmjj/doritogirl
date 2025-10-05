@@ -297,7 +297,28 @@
         { id: 'sacredBook', name: 'Livre Sacré du Cookie', baseCost: 100000, qty: 0, special: 'doubleClickPower' },
         { id: 'cookieStorm', name: 'Tempête de Cookies', baseCost: 500000, qty: 0, special: 'bonusTemporaire' },
         { id: 'darkPortal', name: 'Portail Obscur', baseCost: 2500000, qty: 0, special: 'doubleCps' },
-        { id: 'timeReverser', name: 'Inverseur du Temps', baseCost: 20000000, qty: 0, special: 'slowBonusDecay' }
+        { id: 'timeReverser', name: 'Inverseur du Temps', baseCost: 20000000, qty: 0, special: 'slowBonusDecay' },
+        { id: 'sp1', name: 'Main Dorée', baseCost: 50000, qty: 0, special: 'x5Click' },
+        { id: 'sp2', name: 'Gant du Cookie', baseCost: 150000, qty: 0, special: 'autoClick' },
+        { id: 'sp3', name: 'Horloge Sucrée', baseCost: 400000, qty: 0, special: 'speedBoost' },
+        { id: 'sp4', name: 'Bocal à Énergie', baseCost: 1e6, qty: 0, special: 'regenOverTime' },
+        { id: 'sp5', name: 'Cristal Dorito', baseCost: 3e6, qty: 0, special: 'criticalClicks' },
+        { id: 'sp6', name: 'Lunettes à Cookies', baseCost: 1.2e7, qty: 0, special: 'showHiddenBonus' },
+        { id: 'sp7', name: 'Boussole Dorée', baseCost: 4e7, qty: 0, special: 'autoCollectStorm' },
+        { id: 'sp8', name: 'Catalyseur Croustillant', baseCost: 1e8, qty: 0, special: 'multiplyAllBy2' },
+        { id: 'sp9', name: 'Essence du Vide', baseCost: 5e8, qty: 0, special: 'permanentBoost' },
+        { id: 'sp10', name: 'Horloge Inversée', baseCost: 2e9, qty: 0, special: 'slowTime' },
+        { id: 'sp11', name: 'Totem Dorito', baseCost: 1e10, qty: 0, special: 'doubleBuildings' },
+        { id: 'sp12', name: 'Cœur de Sucre', baseCost: 5e10, qty: 0, special: 'healOverTime' },
+        { id: 'sp13', name: 'Boîte Mystère', baseCost: 2e11, qty: 0, special: 'randomEffect' },
+        { id: 'sp14', name: 'Portail d’Abondance', baseCost: 8e11, qty: 0, special: 'instantBonus' },
+        { id: 'sp15', name: 'Larme du Temps', baseCost: 3e12, qty: 0, special: 'resetBonus' },
+        { id: 'sp16', name: 'Grimoire des Douze Clics', baseCost: 1.5e13, qty: 0, special: 'comboClick' },
+        { id: 'sp17', name: 'Cube Infini', baseCost: 5e13, qty: 0, special: 'infiniteBoost' },
+        { id: 'sp18', name: 'Âme Dorée', baseCost: 2e14, qty: 0, special: 'rebirthBonus' },
+        { id: 'sp19', name: 'Machine à Goûter le Temps', baseCost: 1e15, qty: 0, special: 'timeWarp' },
+        { id: 'sp20', name: 'Œil Suprême', baseCost: 5e15, qty: 0, special: 'allReveal' }
+
       ]
     };
 
@@ -484,6 +505,127 @@
           window.bonusDuration = 60000;
           showNotification('⏳ Les effets durent désormais 2x plus longtemps !');
           break;
+      case 'sp1': // Main Dorée
+        state.perClick *= 5;
+        showNotification('🖐️ Tes clics valent 5x plus !');
+        break;
+
+      case 'sp2': // Gant du Cookie
+        showNotification('🤖 Clic automatique activé !');
+        setInterval(() => clickCookie(), 1000);
+        break;
+
+      case 'sp3': // Horloge Sucrée
+        state.cps *= 1.5;
+        showNotification('⏰ +50% de vitesse de production !');
+        break;
+
+      case 'sp4': // Bocal à Énergie
+        showNotification('⚡ Régénération lente de cookies activée !');
+        setInterval(() => { state.cookies += state.cps * 0.05; renderUpgrades(); }, 3000);
+        break;
+
+      case 'sp5': // Cristal Dorito
+        showNotification('💥 Tu peux faire des CLICS CRITIQUES !');
+        window.criticalChance = 0.1; // 10% de chance
+        window.criticalMultiplier = 10;
+        break;
+
+      case 'sp6': // Lunettes à Cookies
+        showNotification('👓 Tu vois les bonus cachés (à venir) !');
+        break;
+
+      case 'sp7': // Boussole Dorée
+        showNotification('🧭 Les bonus tombants seront auto-collectés !');
+        window.autoCollect = true;
+        break;
+
+      case 'sp8': // Catalyseur Croustillant
+        state.cps *= 2;
+        state.perClick *= 2;
+        showNotification('✨ Tout est 2x plus rapide !');
+        break;
+
+      case 'sp9': // Essence du Vide
+        state.cps *= 3;
+        state.perClick *= 3;
+        showNotification('🌌 Puissance cosmique x3 permanente !');
+        break;
+
+      case 'sp10': // Horloge Inversée
+        showNotification('⏳ Le temps coule plus lentement...');
+        window.gameSpeed = 0.5;
+        break;
+
+      case 'sp11': // Totem Dorito
+        state.upgrades.forEach(u => { if (u.cps) u.cps *= 2; });
+        showNotification('🗿 Tous tes bâtiments produisent 2x plus !');
+        break;
+
+      case 'sp12': // Cœur de Sucre
+        showNotification('💖 +1% de cookies toutes les 2s en soin passif.');
+        setInterval(() => { state.cookies *= 1.01; renderUpgrades(); }, 2000);
+        break;
+
+      case 'sp13': // Boîte Mystère
+        const effects = ['x5Click', 'doubleBuildings', 'instantBonus', 'regenOverTime'];
+        const rand = effects[Math.floor(Math.random() * effects.length)];
+        applySpecialEffect(rand);
+        showNotification('🎁 Un effet mystère t’a été offert !');
+        break;
+
+      case 'sp14': // Portail d’Abondance
+        const bonus = state.cps * 100;
+        state.cookies += bonus;
+        showNotification(`💫 +${format(bonus)} cookies instantanés !`);
+        break;
+
+      case 'sp15': // Larme du Temps
+        showNotification('💧 Réinitialisation douce... tout est boosté de 10% !');
+        state.upgrades.forEach(u => { if (u.cps) u.cps *= 1.1; });
+        state.perClick *= 1.1;
+        break;
+
+      case 'sp16': // Grimoire des Douze Clics
+        showNotification('📖 Combo activé ! Chaque 12e clic donne 10x plus.');
+        window.comboClicks = 0;
+        const oldClicky = clickCookie;
+        clickCookie = function() {
+          window.comboClicks++;
+          if (window.comboClicks % 12 === 0) state.cookies += state.perClick * 9;
+          oldClicky();
+        };
+        break;
+
+      case 'sp17': // Cube Infini
+        showNotification('🔷 Tous les gains augmentent de 1% chaque seconde !');
+        setInterval(() => {
+          state.cps *= 1.01;
+          state.perClick *= 1.01;
+          renderUpgrades();
+        }, 1000);
+        break;
+
+      case 'sp18': // Âme Dorée
+        showNotification('🌠 Tu ressuscites plus fort : +100% CPS permanent !');
+        state.cps *= 2;
+        break;
+
+      case 'sp19': // Machine à Goûter le Temps
+        showNotification('🕰 Accélération temporelle ! +400% pendant 15s');
+        const oldCpsy = state.cps, oldClick2 = state.perClick;
+        state.cps *= 5; state.perClick *= 5;
+        renderUpgrades();
+        setTimeout(() => { state.cps = oldCpsy; state.perClick = oldClick2; renderUpgrades(); }, 15000);
+        break;
+
+      case 'sp20': // Œil Suprême
+        showNotification('👁 Tous les bonus et effets cachés sont visibles.');
+        document.body.style.filter = 'contrast(1.3) saturate(1.2)';
+        break;
+  
+
+
       }
     }
     function buyUpgrade(id){
