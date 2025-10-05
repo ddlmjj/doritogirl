@@ -640,8 +640,8 @@
       const cost = costFor(u);
       if (u.special) {
         if (u.qty < 1) {
-        applySpecialEffect(u.id);
-        if (state.cookies >= cost){ state.cookies -= cost; u.qty += 1; recalcState(); renderUpgrades(); }
+        
+        if (state.cookies >= cost){ state.cookies -= cost; u.qty += 1; recalcState(); renderUpgrades(); applySpecialEffect(u.id);}
         }
       } else {
         if (state.cookies >= cost){ state.cookies -= cost; u.qty += 1; recalcState(); renderUpgrades(); }
