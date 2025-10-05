@@ -647,8 +647,12 @@
         if (state.cookies >= cost){ state.cookies -= cost; u.qty += 1; recalcState(); renderUpgrades(); }
       }
     }
-    function create_dorito() { const img = document.createElement('img');
-      img.src = 'dorito.png';
+    function create_dorito() { 
+      const nombreAleatoire = Math.floor(Math.random() * 100) + 1;
+
+      const img = document.createElement('img');
+      
+      img.src = nombreAleatoire === 56 ? 'bochi.png' : 'dorito.png';
       img.alt = 'Cookie';
       img.width = 63;
       img.height = 71;
