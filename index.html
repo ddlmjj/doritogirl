@@ -800,7 +800,7 @@
     // paramètres du bonus
     const BONUS_DURATION = 30000; // 30 secondes
     const BONUS_MULTIPLIER = 2; // double la production
-    const BONUS_SPAWN_INTERVAL = 10000; // apparaît toutes les 60 sec
+    const BONUS_SPAWN_INTERVAL = 20000; // apparaît toutes les 60 sec
 
     let bonusActive = false;
     let bonusElement = null;
@@ -951,4 +951,5 @@
     window.addEventListener('resize', ()=>{ clearTimeout(resizeTimer); resizeTimer = setTimeout(()=>{ const newMobile = detectMobile(); if (newMobile !== isMobile){ isMobile = newMobile; if (!isMobile) showNonMobile(); else hideNonMobile(); } }, 250); });
   </script>
 </body>
+
 </html>
