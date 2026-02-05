@@ -104,7 +104,20 @@
       align-items: center;
       margin-bottom: 10px;
     }
-
+    .stats {
+  margin-top: env(safe-area-inset-top);
+  padding-top: 12px;
+  text-align: center;
+    }
+    .cookie-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 100svh;
+  padding-bottom: env(safe-area-inset-bottom);
+    }
+    
     .close-menu {
       background: rgba(255,255,255,0.08);
       border: none;
@@ -142,8 +155,8 @@
   <div class="wrap" id="app">
     <button class="menu-toggle" id="openMenu" aria-label="Ouvrir la boutique"><img id="cookieImgshop" src="shop.png" alt="Cookie" width="43.65" height="55.2" style="position: relative;"> <span style="position: absolute; left: 19%; top:65%;font-family: policedorito;">Shop</span>
  </button>
-    <div class="card cookie-area" style="position: absolute; bottom: 0%">
-       <div class="stats" style="position: absolute; top: -5%">
+    <div class="card cookie-area">
+       <div class="stats">
         <div class="big-num" id="cookiesDisplay" style="font-family: policedorito; font-size: 80px">0</div>
         <div class="muted">Dorito — <span id="cpsDisplay">0</span> / s • <span id="perClickDisplay">1</span> par clic</div>
       </div>
@@ -964,6 +977,7 @@
 </body>
 
 </html>
+
 
 
 
