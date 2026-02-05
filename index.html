@@ -16,16 +16,23 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
   -ms-user-select: none;     /* Ancien Edge */
   user-select: none;         /* Standard */
     }
+
+    
     body{margin:0; padding: 0;overflow-x: hidden;font-family:Inter,Segoe UI,Roboto,Arial;background-image: url("back.png");color:#e6eef6;display:flex;align-items:flex-start;justify-content:center;
         -webkit-user-select: none; /* Safari / iOS */
   -moz-user-select: none;    /* Firefox */
   -ms-user-select: none;     /* Ancien Edge */
-  user-select: none;         /* Standard */}
+  user-select: none;  
+  touch-action: manipulation;
+  overscroll-behavior: none;/* Standard */}
     @font-face {
       font-family: 'policedorito';
       src: url('font.woff2') format('truetype');
       font-weight: normal;
       font-style: normal;
+    }
+    button, img, .cookie-btn {
+  touch-action: manipulation;
     }
     /* Container mobile-first */
     .wrap{width:100%;max-width:480px;margin:12px 0;display:flex;flex-direction:column;gap:12px}
@@ -201,7 +208,17 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
       <div style="margin-top:10px"><button class="pill" id="forceDesktopBtn">Forcer mode (développeur)</button></div>
     </div>
   </div>
+  <script>
+  // Bloque le zoom par gestes
+  document.addEventListener('gesturestart', e => e.preventDefault());
+  document.addEventListener('gesturechange', e => e.preventDefault());
+  document.addEventListener('gestureend', e => e.preventDefault());
 
+  // Bloque le zoom avec ctrl + molette (hybrides)
+  document.addEventListener('wheel', e => {
+    if (e.ctrlKey) e.preventDefault();
+  }, { passive: false });
+  </script>
   <script>
     // --- Détection mobile ---
     function detectMobile(){
@@ -976,6 +993,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
 </body>
 
 </html>
+
 
 
 
