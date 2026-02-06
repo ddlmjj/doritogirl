@@ -39,7 +39,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
     .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));}
 
     .cookie-area{display:flex;flex-direction:column;align-items:center;justify-content:center;}
-    .cookie-btn{width:78vw;max-width:340px;height:78vw;max-height:340px;border-radius:10%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .08s ease;-webkit-tap-highlight-color:transparent}
+    .cookie-btn{width:78vw;max-width:340px;height:2vw;max-height:340px;border-radius:10%;margin-top: 10%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .08s ease;-webkit-tap-highlight-color:transparent}
     .cookie-inner{font-size:48px;font-weight:700;color:#2b1500;text-shadow:0 1px 0 #fff7c2}
 
     .stats{margin-top:12px;text-align:center;color:white;}
@@ -169,7 +169,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
       <div class="cookie-btn" id="cookieBtn" aria-hidden="false" >
         <div class="cookie-inner" id="cookieInner" style="position: relative;"> 
             <img id="cookieImgstar" src="star.png" alt="Cookie" width="69" height="69" style="position: absolute; top: 17px; left: -30px; transform: rotate(-45deg);visibility:hidden">
-            <img id="cookieImgdorito" src="dorito.png" alt="Cookie" width="63" height="71" style="position: flex; margin-top: 0%; left: 50%; transform: rotate(-90deg);">
+            <img id="cookieImgdorito" src="dorito.png" alt="Cookie" width="63" height="71" style="position: relative; left: 50%; transform: rotate(-90deg);">
             
           </div>
             
@@ -177,8 +177,8 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
       <div class="cookie-inner" id="cookieInnerdorito" style="position: relative;"> 
        
       <img id="cookieImg" src="corp.png" alt="Cookie" width="350" height="508" style="margin-top: 5%" />
-            <img id="cookieImgyeux" src="yeux.png" alt="Cookie" width="118" height="168" style="position: absolute; top: 0%; left: 37%; transform: rotate(-90deg);">
-            <img id="cookieImgdoritopacket" src="dorito_packet.png" alt="Cookie" width="118" height="168" style="position: absolute; top: 0%; left: 40%;transform: rotate(5deg);">
+            <img id="cookieImgyeux" src="yeux.png" alt="Cookie" width="118" height="168" style="position: absolute; top: 25%; left: 37%; transform: rotate(-90deg);">
+            <img id="cookieImgdoritopacket" src="dorito_packet.png" alt="Cookie" width="118" height="168" style="position: absolute; bottom: 0%; left: 40%;transform: rotate(5deg);">
             </div>
      
 
@@ -698,8 +698,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
       img.height = 71;
       img.className = 'fall';
       img.id = 'cookieImgdoritoclone';
-      img.style.position = 'absolute';
-      img.style.top = '53.5%';
+      img.style.position = 'relative';
       img.style.left = '50%';
       img.style.transform = 'rotate(-90deg)';
 
@@ -993,6 +992,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
 </body>
 
 </html>
+
 
 
 
