@@ -281,13 +281,17 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
         { id: 'farm', name: 'Ferme à biscuits', baseCost: 2000, qty: 0, cps: 25 },
         { id: 'mine', name: 'Mine de chips', baseCost: 10000, qty: 0, cps: 120 },
         { id: 'factory', name: 'Méga-usine', baseCost: 50000, qty: 0, cps: 600 },
+        { id: 'cookieMine', name: 'Gisement sucré', baseCost: 75000, qty: 0, cps: 2000 }
         { id: 'bank', name: 'Banque à cookies', baseCost: 300000, qty: 0, cps: 3200 },
         { id: 'temple', name: 'Temple croustillant', baseCost: 1200000, qty: 0, cps: 15000 },
         { id: 'wizard', name: 'Tour du magicien', baseCost: 10000000, qty: 0, cps: 90000 },
-        { id: 'portal', name: 'Portail Dorito', baseCost: 25000000, qty: 0, cps: 400000 },
+        { id: 'boosterChip', name: 'Puce Dorito', baseCost: 1000000, qty: 0, cps: 15000 },
+        { id: 'portal', name: 'Portail Dorito', baseCost: 25000000, qty: 0, cps: 400000 }
+        { id: 'quantumOven', name: 'Four quantique', baseCost: 25000000, qty: 0, cps: 200000, clickBoost: 25 },
         { id: 'timeMachine', name: 'Machine temporelle', baseCost: 200000000, qty: 0, cps: 2500000 },
         { id: 'planet', name: 'Planète Dorito', baseCost: 2500000000, qty: 0, cps: 15000000 },
         { id: 'universe', name: 'Four cosmique', baseCost: 15000000000, qty: 0, cps: 85000000 },
+        { id: 'nexus', name: 'Nexus croustillant', baseCost: 100000000, qty: 0, cps: 1500000, clickBoost: 40 }
         { id: 'b21', name: 'Forge Stellaire', baseCost: 3e12, qty: 0, cps: 6e9 },
         { id: 'b22', name: 'Observatoire du Vide', baseCost: 8e13, qty: 0, cps: 2.5e11 },
         { id: 'b23', name: 'Cœur de Supernova', baseCost: 2e15, qty: 0, cps: 9e12 },
@@ -332,8 +336,9 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
         { id: 'b62', name: 'Arche du Néant', baseCost: 2.5e40, qty: 0, cps: 2.5e37 },
         { id: 'b63', name: 'Pilier de l’Infini', baseCost: 1e41, qty: 0, cps: 1.1e38 },
         { id: 'b64', name: 'Sphère de Création', baseCost: 4.5e41, qty: 0, cps: 4.5e38 },
-        { id: 'b65', name: 'Trône Cosmique', baseCost: 2e42, qty: 0, cps: 2e39 },
-
+        { id: 'b65', name: 'Dorito spatiale democratique', baseCost: 2e42, qty: 0, cps: 2e39 },
+        ,
+        
         // --- Boosts de clics ---
         { id: 'click1', name: 'Doigt énergique', baseCost: 15, qty: 0, clickBoost: 1 },
         { id: 'click2', name: 'Ongle renforcé', baseCost: 100, qty: 0, clickBoost: 2 },
@@ -347,11 +352,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
         { id: 'click10', name: 'Clic du néant', baseCost: 50000000, qty: 0, clickBoost: 3000 },
 
         // --- Objets spéciaux (petits bonus à effet global) ---
-        { id: 'cookieMine', name: 'Gisement sucré', baseCost: 75000, qty: 0, cps: 2000, clickBoost: 5 },
-        { id: 'boosterChip', name: 'Puce Dorito', baseCost: 1000000, qty: 0, cps: 15000, clickBoost: 10 },
-        { id: 'quantumOven', name: 'Four quantique', baseCost: 25000000, qty: 0, cps: 200000, clickBoost: 25 },
-        { id: 'nexus', name: 'Nexus croustillant', baseCost: 100000000, qty: 0, cps: 1500000, clickBoost: 40 },
-
+        
         // --- Objets spéciaux à effet unique ---
         { id: 'goldenOven', name: 'Four Doré', baseCost: 15000, qty: 0, special: 'doubleGrandma' },
         { id: 'sacredBook', name: 'Livre Sacré du Cookie', baseCost: 100000, qty: 0, special: 'doubleClickPower' },
@@ -1006,6 +1007,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
 </body>
 
 </html>
+
 
 
 
