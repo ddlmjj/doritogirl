@@ -161,8 +161,13 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
         visibility: hidden;        
       }
     }
+
+    
     .fall {
       animation: tomber 1s ease-in forwards;
+    }
+    .fall_kita {
+      animation: tomber 0.3s ease-in forwards;
     }
   </style>
 </head>
@@ -170,7 +175,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
   <div class="wrap" id="app">
     <button class="menu-toggle" id="openMenu" aria-label="Ouvrir la boutique"><img id="cookieImgshop" src="shop.png" alt="Cookie" width="43.65" height="55.2" style="position: relative;"> <span style="position: absolute; left: 19%; top:65%;font-family: policedorito;">Shop</span>
  </button>
-    <div class="card cookie-area">
+    <div class="crd cookie-area">
        <div class="stats">
         <div class="big-num" id="cookiesDisplay" style="font-family: policedorito; font-size: 80px">0</div>
         <div class="muted">Dorito — <span id="cpsDisplay">0</span> / s • <span id="perClickDisplay">1</span> par clic</div>
@@ -723,6 +728,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
         if (state.cookies >= cost){ state.cookies -= cost; u.qty += 1; recalcState(); renderUpgrades(); }
       }
     }
+    let bonusActive = false;
     function create_dorito() { 
       const nombreAleatoire = Math.floor(Math.random() * 100) + 1;
 
@@ -732,7 +738,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
       img.alt = 'Cookie';
       img.width = 63;
       img.height = 71;
-      img.className = 'fall';
+      img.className = bonusActive ? 'fall_kita' : 'fall';
       img.id = 'cookieImgdoritoclone';
       img.style.position = 'absolute';
       img.style.top = '-8%';
@@ -878,7 +884,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
     const BONUS_MULTIPLIER = 2; // double la production
     const BONUS_SPAWN_INTERVAL = 20000; // apparaît toutes les 60 sec
 
-    let bonusActive = false;
+    
     let bonusElement = null;
     let bonusVelocity = { x: 1, y: 1 };
     let bonusAngle = 0;
@@ -1029,6 +1035,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
 </body>
 
 </html>
+
 
 
 
