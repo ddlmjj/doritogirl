@@ -528,7 +528,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
 
         const div = document.createElement('div');
         div.className = 'upgrade';
-        div.innerHTML = `\n          <div>\n            <div style="font-weight:700">${u.name} <span class="small" style="font-weight:400">x${u.qty}</span></div>\n            <div class="small">${u.cps ? u.cps + ' /s' : (u.clickBoost ? '+'+u.clickBoost+' par clic' : '')}</div>\n          </div>\n          <div class="row">\n            <div style="text-align:right;margin-right:8px">\n              <div class="small">Coût</div>\n              <div style="font-weight:700">${format(costFor(u))}</div>\n            </div>\n            <button class="buy-btn" ${(!isMobile || (state.cookies < costFor(u)) || (u.special && u.qty === 1))  ? 'disabled' : ''} data-id="${u.id}">Acheter</button>\n          </div>\n        `;
+        div.innerHTML = `\n          <div>\n            <div style="font-weight:700">${u.name} <span class="small" style="font-weight:400">x${u.qty}</span></div>\n            <div class="small">${u.cps ? format(u.cps) + ' /s' : (u.clickBoost ? '+'+format(u.clickBoost)+' par clic' : '')}</div>\n          </div>\n          <div class="row">\n            <div style="text-align:right;margin-right:8px">\n              <div class="small">Coût</div>\n              <div style="font-weight:700">${format(costFor(u))}</div>\n            </div>\n            <button class="buy-btn" ${(!isMobile || (state.cookies < costFor(u)) || (u.special && u.qty === 1))  ? 'disabled' : ''} data-id="${u.id}">Acheter</button>\n          </div>\n        `;
         upgradesList.appendChild(div);
         if (u.special) div.classList.add('special');
       });
@@ -1035,6 +1035,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
 </body>
 
 </html>
+
 
 
 
