@@ -747,12 +747,12 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
 
       // Ajoute l'image à la page
       document.getElementById("cookieInnerdorito").appendChild(img);
-      setInterval(()=>{ if (bonusActive) {
-        document.getElementById("cookieInnerdorito").appendChild(img)
+      setTimeout(()=>{ if (bonusActive) {
+        document.getElementById("cookieInnerdorito").appendChild(img);
         img.addEventListener('animationend', () => {
         img.remove();
       });}
-      }; }, 100);
+      }, 100);
        img.addEventListener('animationend', () => {
         img.remove();
       });}
@@ -1041,6 +1041,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
 </body>
 
 </html>
+
 
 
 
