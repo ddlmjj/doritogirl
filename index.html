@@ -427,7 +427,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
     // --- Utilitaires ---
     function format(n){
       if (n < 10000) return Math.floor(n).toLocaleString();
-      const units = ['k','M','G','T'];
+      const units = ['k','M','G','T', 'q', 'Q', 's', 'S', 'o', 'n', 'd'];
       let i = -1; let v = n;
       while(v >= 1000 && i < units.length-1){ v /= 1000; i++; }
       return v.toFixed( (v<10 && i>=0)?1:0 ) + units[i];
@@ -1035,6 +1035,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
 </body>
 
 </html>
+
 
 
 
