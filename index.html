@@ -429,7 +429,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
     // --- Utilitaires ---
     function format(n){
       if (n < 10000) return Math.floor(n).toLocaleString();
-      const units = ['k','M','G','T', 'q', 'Q', 's', 'S', 'o', 'n', 'd'];
+      const units = ['k','M','G','T', 'q', 'Q', 's', 'S', 'o', 'n', 'd', 'kd', 'Md', 'Gd', 'Td', 'qd', 'Qd', 'sd', 'Sd', 'od', 'nd', 'D', 'kD', 'MD', 'GD', 'TD', 'qD', 'QD', 'sD', 'SD', 'oD', 'nD'];
       let i = -1; let v = n;
       while(v >= 1000 && i < units.length-1){ v /= 1000; i++; }
       return v.toFixed( (v<10 && i>=0)?1:0 ) + units[i];
@@ -1043,6 +1043,7 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,
 </body>
 
 </html>
+
 
 
 
