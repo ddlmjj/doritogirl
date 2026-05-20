@@ -1,0 +1,26 @@
+{
+  "name": "dorito-girl",
+  "version": "0.0.1",
+  "description": "A website where u can click on a dorito",
+  "keywords": [
+    "THEDDLM"
+  ],
+  "homepage": "https://github.com/ddlmjj/doritogirl#readme",
+  "bugs": {
+    "url": "https://github.com/ddlmjj/doritogirl/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ddlmjj/doritogirl.git"
+  },
+  "license": "ISC",
+  "author": "THEDDLM",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "test": "node main.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
